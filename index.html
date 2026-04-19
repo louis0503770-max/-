@@ -3,126 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중2 마스터 퀴즈 앱 v2.0</title>
+    <title>중2 통합 마스터 v3.0</title>
     <style>
-        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; }
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: var(--card); padding: 2rem; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); width: 90%; max-width: 500px; }
+        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #818cf8; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { background: var(--card); padding: 2rem; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 600px; }
         .header { text-align: center; margin-bottom: 2rem; }
-        .subject-btns { display: grid; gap: 1rem; margin-top: 1rem; }
-        .btn { padding: 15px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn { padding: 20px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1.1rem; }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        .hidden { display: none; }
+        
+        /* 표 스타일 */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #334155; border-radius: 10px; overflow: hidden; font-size: 0.9rem; }
+        th, td { border: 1px solid #475569; padding: 10px; text-align: center; }
+        th { background: var(--primary); }
+        .study-title { color: var(--accent); border-left: 4px solid var(--accent); padding-left: 10px; margin-top: 30px; }
+        
+        /* 퀴즈 스타일 */
         .option-btn { background: #334155; margin-bottom: 10px; text-align: left; width: 100%; }
-        .option-btn:hover { background: #475569; }
         .correct { background: #22c55e !important; }
         .wrong { background: #ef4444 !important; }
-        .hidden { display: none; }
-        #progress { height: 6px; background: #334155; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
-        #bar { height: 100%; background: var(--primary); width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-<div class="container" id="main-container">
-    <div id="start-screen">
+<div class="container">
+    <div id="menu-screen">
         <div class="header">
-            <h1>🚀 중2 학습 마스터</h1>
-            <p>오늘 정복할 과목을 선택하세요!</p>
+            <h1>🚀 중2 통합 학습 앱</h1>
+            <p>공부할 과목을 선택하세요</p>
         </div>
-        <div class="subject-btns">
-            <button class="btn" onclick="startQuiz('korean')">국어 (음운 체계)</button>
-            <button class="btn" onclick="startQuiz('math')">수학 (식의 계산 & 기하)</button>
+        <div class="grid-menu">
+            <button class="btn" onclick="showStudy('korean')">국어</button>
+            <button class="btn" onclick="alert('준비 중입니다!')" style="background: #475569;">과학</button>
+            <button class="btn" onclick="alert('준비 중입니다!')" style="background: #475569;">수학</button>
+            <button class="btn" onclick="alert('준비 중입니다!')" style="background: #475569;">영어</button>
         </div>
+    </div>
+
+    <div id="study-screen" class="hidden">
+        <div class="header">
+            <h1>📖 국어 음운 체계 암기</h1>
+            <p>문제를 풀기 전 표를 보고 복습하세요!</p>
+        </div>
+        
+        <h3 class="study-title">자음 체계표</h3>
+        <table>
+            <tr><th>위치\방법</th><th>입술</th><th>잇몸</th><th>센입천장</th><th>여린입천장</th><th>목청</th></tr>
+            <tr><td>파열음</td><td>ㅂ,ㅃ,ㅍ</td><td>ㄷ,ㄸ,ㅌ</td><td>-</td><td>ㄱ,ㄲ,ㅋ</td><td>-</td></tr>
+            <tr><td>마찰음</td><td>-</td><td>ㅅ,ㅆ</td><td>-</td><td>-</td><td>ㅎ</td></tr>
+            <tr><td>파찰음</td><td>-</td><td>-</td><td>ㅈ,ㅉ,ㅊ</td><td>-</td><td>-</td></tr>
+            <tr><td>비음</td><td>ㅁ</td><td>ㄴ</td><td>-</td><td>ㅇ</td><td>-</td></tr>
+            <tr><td>유음</td><td>-</td><td>ㄹ</td><td>-</td><td>-</td><td>-</td></tr>
+        </table>
+
+        <h3 class="study-title">단모음 체계표</h3>
+        <table>
+            <tr><th>위치\모양</th><th colspan="2">전설(앞)</th><th colspan="2">후설(뒤)</th></tr>
+            <tr><th>입술</th><th>평순</th><th>원순</th><th>평순</th><th>원순</th></tr>
+            <tr><td>고모음</td><td>ㅣ</td><td>ㅟ</td><td>ㅡ</td><td>ㅜ</td></tr>
+            <tr><td>중모음</td><td>ㅔ</td><td>ㅚ</td><td>ㅓ</td><td>ㅗ</td></tr>
+            <tr><td>저모음</td><td>ㅐ</td><td>-</td><td>ㅏ</td><td>-</td></tr>
+        </table>
+
+        <button class="btn" style="width:100%; margin-top:20px;" onclick="startQuiz()">다 외웠다! 퀴즈 시작</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
-        <div id="progress"><div id="bar"></div></div>
-        <h2 id="question">질문이 여기에 나옵니다.</h2>
+        <h2 id="question">질문</h2>
         <div id="options"></div>
         <button id="next-btn" class="btn hidden" onclick="loadNextQuestion()" style="width:100%; margin-top:1rem;">다음 문제</button>
-    </div>
-
-    <div id="result-screen" class="hidden">
-        <div class="header">
-            <h1>결과 확인</h1>
-            <p id="result-text"></p>
-            <button class="btn" onclick="location.reload()" style="width:100%;">처음으로 돌아가기</button>
-        </div>
     </div>
 </div>
 
 <script>
-    const quizBank = {
-        korean: [
-            { q: "입술소리이면서 비음(울림소리)인 것은?", a: ["ㅁ", "ㅂ", "ㄴ", "ㅇ"], cor: 0 },
-            { q: "단모음 분류 기준이 아닌 것은?", a: ["혀의 높낮이", "혀의 앞뒤 위치", "입술 모양", "소리의 세기"], cor: 3 },
-            { q: "혀의 높이가 가장 낮은 '저모음'은?", a: ["ㅣ", "ㅔ", "ㅐ", "ㅡ"], cor: 2 }
-        ],
-        math: [
-            { q: "2³ × 2⁴를 계산하면?", a: ["2¹²", "2⁷", "4⁷", "4¹²"], cor: 1 },
-            { q: "삼각형의 외심에서 각 꼭짓점에 이르는 거리는?", a: ["모두 같다", "서로 다르다", "밑변의 절반이다", "알 수 없다"], cor: 0 },
-            { q: "모든 순환소수는 유리수이다?", a: ["O", "X"], cor: 0 }
-        ]
-    };
+    const quizData = [
+        { q: "입술소리이면서 비음인 것은?", a: ["ㅁ", "ㄴ", "ㅇ", "ㄹ"], cor: 0 },
+        { q: "혀의 높이가 가장 낮은 저모음은?", a: ["ㅣ", "ㅔ", "ㅐ", "ㅡ"], cor: 2 },
+        { q: "전설 모음이면서 원순 모음인 것은?", a: ["ㅣ", "ㅟ", "ㅡ", "ㅜ"], cor: 1 }
+    ];
 
-    let currentSubject = [];
     let currentIdx = 0;
-    let score = 0;
 
-    function startQuiz(subject) {
-        currentSubject = quizBank[subject];
-        document.getElementById('start-screen').classList.add('hidden');
+    function showStudy(subject) {
+        if(subject === 'korean') {
+            document.getElementById('menu-screen').classList.add('hidden');
+            document.getElementById('study-screen').classList.remove('hidden');
+        }
+    }
+
+    function startQuiz() {
+        document.getElementById('study-screen').classList.add('hidden');
         document.getElementById('quiz-screen').classList.remove('hidden');
         loadQuestion();
     }
 
     function loadQuestion() {
-        const q = currentSubject[currentIdx];
-        document.getElementById('question').innerText = q.q;
-        document.getElementById('bar').style.width = `${(currentIdx / currentSubject.length) * 100}%`;
-        
-        const optContainer = document.getElementById('options');
-        optContainer.innerHTML = '';
-        
-        q.a.forEach((text, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'btn option-btn';
-            btn.innerText = text;
-            btn.onclick = () => checkAnswer(i, btn);
-            optContainer.appendChild(btn);
-        });
-        document.getElementById('next-btn').classList.add('hidden');
-    }
-
-    function checkAnswer(idx, btn) {
-        const cor = currentSubject[currentIdx].cor;
-        const options = document.querySelectorAll('.option-btn');
-        options.forEach(b => b.disabled = true);
-
-        if(idx === cor) {
-            btn.classList.add('correct');
-            score++;
-        } else {
-            btn.classList.add('wrong');
-            options[cor].classList.add('correct');
-        }
-        document.getElementById('next-btn').classList.remove('hidden');
-    }
-
-    function loadNextQuestion() {
-        currentIdx++;
-        if(currentIdx < currentSubject.length) {
-            loadQuestion();
-        } else {
-            showResult();
-        }
-    }
-
-    function showResult() {
-        document.getElementById('quiz-screen').classList.add('hidden');
-        document.getElementById('result-screen').classList.remove('hidden');
-        document.getElementById('result-text').innerText = `${currentSubject.length}문제 중 ${score}문제를 맞혔습니다! 고생했어요!`;
-    }
-</script>
-</body>
-</html>
+        const q = quizData[currentIdx];
+        document.getElementById('question').innerText = `Q. ${q.q}`;
+        const optContainer = document
