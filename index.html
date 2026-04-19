@@ -3,90 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>국어 음운 체계 암기 마스터</title>
+    <title>중2 마스터 퀴즈 앱 v2.0</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 500px; text-align: center; }
-        h1 { color: #1a73e8; font-size: 1.5rem; margin-bottom: 1.5rem; }
-        .question { font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold; min-height: 60px; }
-        .options { display: grid; gap: 10px; }
-        button { padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; background: white; cursor: pointer; transition: 0.3s; font-size: 1rem; }
-        button:hover { background: #f8f9fa; border-color: #1a73e8; }
-        button.correct { background: #d4edda; border-color: #28a745; color: #155724; }
-        button.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
-        #score { margin-top: 1.5rem; font-weight: bold; color: #5f6368; }
-        #next-btn { margin-top: 1rem; background: #1a73e8; color: white; border: none; display: none; width: 100%; }
-        .progress-bar { height: 5px; background: #e0e0e0; margin-bottom: 20px; border-radius: 5px; overflow: hidden; }
-        .progress { height: 100%; background: #1a73e8; width: 0%; transition: 0.3s; }
+        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: var(--card); padding: 2rem; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); width: 90%; max-width: 500px; }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .subject-btns { display: grid; gap: 1rem; margin-top: 1rem; }
+        .btn { padding: 15px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .option-btn { background: #334155; margin-bottom: 10px; text-align: left; width: 100%; }
+        .option-btn:hover { background: #475569; }
+        .correct { background: #22c55e !important; }
+        .wrong { background: #ef4444 !important; }
+        .hidden { display: none; }
+        #progress { height: 6px; background: #334155; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+        #bar { height: 100%; background: var(--primary); width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="progress-bar"><div class="progress" id="progress"></div></div>
-    <h1>🎤 국어 음운 체계 퀴즈</h1>
-    <div id="quiz-box">
-        <div class="question" id="question">문제를 불러오는 중...</div>
-        <div class="options" id="options"></div>
-        <button id="next-btn" onclick="nextQuestion()">다음 문제로</button>
+<div class="container" id="main-container">
+    <div id="start-screen">
+        <div class="header">
+            <h1>🚀 중2 학습 마스터</h1>
+            <p>오늘 정복할 과목을 선택하세요!</p>
+        </div>
+        <div class="subject-btns">
+            <button class="btn" onclick="startQuiz('korean')">국어 (음운 체계)</button>
+            <button class="btn" onclick="startQuiz('math')">수학 (식의 계산 & 기하)</button>
+        </div>
     </div>
-    <div id="score"></div>
+
+    <div id="quiz-screen" class="hidden">
+        <div id="progress"><div id="bar"></div></div>
+        <h2 id="question">질문이 여기에 나옵니다.</h2>
+        <div id="options"></div>
+        <button id="next-btn" class="btn hidden" onclick="loadNextQuestion()" style="width:100%; margin-top:1rem;">다음 문제</button>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <div class="header">
+            <h1>결과 확인</h1>
+            <p id="result-text"></p>
+            <button class="btn" onclick="location.reload()" style="width:100%;">처음으로 돌아가기</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    const quizData = [
-        { q: "'ㅅ, ㅆ'은 소리 내는 방법 중 어디에 해당할까요?", a: ["마찰음", "파열음", "파찰음", "비음"], cor: 0 },
-        { q: "입술소리(순음)이면서 울림소리(비음)인 자음은?", a: ["ㅂ", "ㅁ", "ㅍ", "ㅃ"], cor: 1 },
-        { q: "단모음 분류 기준이 아닌 것은?", a: ["혀의 높낮이", "입술 모양", "혀의 앞뒤 위치", "소리의 세기"], cor: 3 },
-        { q: "혀의 높이가 가장 낮은 '저모음'은?", a: ["ㅣ", "ㅡ", "ㅏ", "ㅜ"], cor: 2 },
-        { q: "전설 모음이면서 원순 모음인 것은?", a: ["ㅣ", "ㅟ", "ㅔ", "ㅓ"], cor: 1 },
-        { q: "자음 'ㅈ, ㅉ, ㅊ'은 어느 위치에서 날까요?", a: ["입술", "잇몸", "센입천장", "여린입천장"], cor: 2 },
-        { q: "공기를 막았다가 한 번에 터뜨리는 소리는?", a: ["파열음", "마찰음", "비음", "유음"], cor: 0 }
-    ];
+    const quizBank = {
+        korean: [
+            { q: "입술소리이면서 비음(울림소리)인 것은?", a: ["ㅁ", "ㅂ", "ㄴ", "ㅇ"], cor: 0 },
+            { q: "단모음 분류 기준이 아닌 것은?", a: ["혀의 높낮이", "혀의 앞뒤 위치", "입술 모양", "소리의 세기"], cor: 3 },
+            { q: "혀의 높이가 가장 낮은 '저모음'은?", a: ["ㅣ", "ㅔ", "ㅐ", "ㅡ"], cor: 2 }
+        ],
+        math: [
+            { q: "2³ × 2⁴를 계산하면?", a: ["2¹²", "2⁷", "4⁷", "4¹²"], cor: 1 },
+            { q: "삼각형의 외심에서 각 꼭짓점에 이르는 거리는?", a: ["모두 같다", "서로 다르다", "밑변의 절반이다", "알 수 없다"], cor: 0 },
+            { q: "모든 순환소수는 유리수이다?", a: ["O", "X"], cor: 0 }
+        ]
+    };
 
+    let currentSubject = [];
     let currentIdx = 0;
     let score = 0;
 
+    function startQuiz(subject) {
+        currentSubject = quizBank[subject];
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        loadQuestion();
+    }
+
     function loadQuestion() {
-        const qEl = document.getElementById("question");
-        const optEl = document.getElementById("options");
-        const nextBtn = document.getElementById("next-btn");
-        const progress = document.getElementById("progress");
-
-        nextBtn.style.display = "none";
-        optEl.innerHTML = "";
+        const q = currentSubject[currentIdx];
+        document.getElementById('question').innerText = q.q;
+        document.getElementById('bar').style.width = `${(currentIdx / currentSubject.length) * 100}%`;
         
-        let currentQ = quizData[currentIdx];
-        qEl.innerText = currentQ.q;
-        progress.style.width = `${(currentIdx / quizData.length) * 100}%`;
-
-        currentQ.a.forEach((text, i) => {
-            const btn = document.createElement("button");
+        const optContainer = document.getElementById('options');
+        optContainer.innerHTML = '';
+        
+        q.a.forEach((text, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn option-btn';
             btn.innerText = text;
             btn.onclick = () => checkAnswer(i, btn);
-            optEl.appendChild(btn);
+            optContainer.appendChild(btn);
         });
+        document.getElementById('next-btn').classList.add('hidden');
     }
 
     function checkAnswer(idx, btn) {
-        const buttons = document.querySelectorAll("#options button");
-        const correctIdx = quizData[currentIdx].cor;
+        const cor = currentSubject[currentIdx].cor;
+        const options = document.querySelectorAll('.option-btn');
+        options.forEach(b => b.disabled = true);
 
-        buttons.forEach(b => b.disabled = true);
-
-        if(idx === correctIdx) {
-            btn.classList.add("correct");
+        if(idx === cor) {
+            btn.classList.add('correct');
             score++;
         } else {
-            btn.classList.add("wrong");
-            buttons[correctIdx].classList.add("correct");
+            btn.classList.add('wrong');
+            options[cor].classList.add('correct');
         }
-        document.getElementById("next-btn").style.display = "block";
+        document.getElementById('next-btn').classList.remove('hidden');
     }
 
-    function nextQuestion() {
+    function loadNextQuestion() {
         currentIdx++;
-        if(currentIdx < quizData.length) {
+        if(currentIdx < currentSubject.length) {
             loadQuestion();
         } else {
             showResult();
@@ -94,16 +119,10 @@
     }
 
     function showResult() {
-        document.getElementById("quiz-box").innerHTML = `
-            <h2>테스트 종료!</h2>
-            <p style="font-size: 1.5rem;">총 ${quizData.length}문제 중 <b>${score}</b>문제 적중!</p>
-            <button onclick="location.reload()" style="background:#5f6368; color:white; width:100%; border:none;">다시 도전하기</button>
-        `;
-        document.getElementById("progress").style.width = "100%";
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('result-text').innerText = `${currentSubject.length}문제 중 ${score}문제를 맞혔습니다! 고생했어요!`;
     }
-
-    loadQuestion();
 </script>
-
 </body>
 </html>
