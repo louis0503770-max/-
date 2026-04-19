@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중2 통합 마스터 v3.1</title>
+    <title>중2 국어 마스터 v3.2</title>
     <style>
         :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #818cf8; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .container { background: var(--card); padding: 2rem; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 600px; }
-        .header { text-align: center; margin-bottom: 2rem; }
+        .container { background: var(--card); padding: 1.5rem; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 650px; }
+        .header { text-align: center; margin-bottom: 1.5rem; }
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .btn { padding: 20px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1.1rem; width: 100%; }
+        .btn { padding: 18px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1.1rem; width: 100%; }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
         .hidden { display: none !important; }
         
         /* 표 스타일 */
-        .table-wrapper { overflow-x: auto; margin: 20px 0; }
-        table { width: 100%; border-collapse: collapse; background: #334155; border-radius: 10px; overflow: hidden; font-size: 0.85rem; }
-        th, td { border: 1px solid #475569; padding: 8px; text-align: center; }
+        .table-wrapper { overflow-x: auto; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; background: #334155; border-radius: 10px; overflow: hidden; font-size: 0.8rem; }
+        th, td { border: 1px solid #475569; padding: 6px; text-align: center; }
         th { background: var(--primary); color: white; }
-        .study-title { color: var(--accent); border-left: 4px solid var(--accent); padding-left: 10px; margin-top: 30px; font-size: 1.1rem; }
+        .study-title { color: var(--accent); border-left: 4px solid var(--accent); padding-left: 10px; margin-top: 20px; font-size: 1rem; }
         
-        /* 퀴즈 스타일 */
-        .option-btn { background: #334155; margin-bottom: 10px; text-align: left; }
+        /* 퀴즈 및 타이머 스타일 */
+        #timer { font-weight: bold; color: #fbbf24; font-size: 1.1rem; text-align: right; margin-bottom: 10px; }
+        .option-btn { background: #334155; margin-bottom: 10px; text-align: left; font-size: 1rem; }
         .correct { background: #22c55e !important; }
         .wrong { background: #ef4444 !important; }
-        #question { margin: 1.5rem 0; line-height: 1.4; }
+        #question { margin: 1rem 0; line-height: 1.4; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -37,50 +38,96 @@
             <p>공부할 과목을 선택하세요</p>
         </div>
         <div class="grid-menu">
-            <button class="btn" onclick="goToStudy()">국어</button>
-            <button class="btn" style="background: #475569;" onclick="alert('곧 업데이트 됩니다!')">과학</button>
-            <button class="btn" style="background: #475569;" onclick="alert('곧 업데이트 됩니다!')">수학</button>
-            <button class="btn" style="background: #475569;" onclick="alert('곧 업데이트 됩니다!')">영어</button>
+            <button class="btn" onclick="goToStudy()">국어 (음운 체계)</button>
+            <button class="btn" style="background: #475569;" onclick="alert('업데이트 준비 중!')">과학</button>
+            <button class="btn" style="background: #475569;" onclick="alert('업데이트 준비 중!')">수학</button>
+            <button class="btn" style="background: #475569;" onclick="alert('업데이트 준비 중!')">영어</button>
         </div>
     </div>
 
     <div id="study-screen" class="hidden">
-        <div class="header">
-            <h1>📖 국어 음운 체계 암기</h1>
-            <p>표를 보고 복습 후 퀴즈를 푸세요!</p>
-        </div>
+        <div class="header"><h1>📖 음운 체계 요약 노트</h1></div>
         
-        <h3 class="study-title">자음 체계표</h3>
+        <h3 class="study-title">자음 체계표 (위치/방법)</h3>
         <div class="table-wrapper">
             <table>
-                <tr><th>위치\방법</th><th>입술</th><th>잇몸</th><th>센입천장</th><th>여린입천장</th><th>목청</th></tr>
-                <tr><td>파열음</td><td>ㅂ,ㅃ,ㅍ</td><td>ㄷ,ㄸ,ㅌ</td><td>-</td><td>ㄱ,ㄲ,ㅋ</td><td>-</td></tr>
-                <tr><td>마찰음</td><td>-</td><td>ㅅ,ㅆ</td><td>-</td><td>-</td><td>ㅎ</td></tr>
-                <tr><td>파찰음</td><td>-</td><td>-</td><td>ㅈ,ㅉ,ㅊ</td><td>-</td><td>-</td></tr>
+                <tr><th>방법\위치</th><th>입술</th><th>잇몸</th><th>센입천장</th><th>여린입천장</th><th>목청</th></tr>
+                <tr><td>파열음</td><td>ㅂ ㅃ ㅍ</td><td>ㄷ ㄸ ㅌ</td><td>-</td><td>ㄱ ㄲ ㅋ</td><td>-</td></tr>
+                <tr><td>마찰음</td><td>-</td><td>ㅅ ㅆ</td><td>-</td><td>-</td><td>ㅎ</td></tr>
+                <tr><td>파찰음</td><td>-</td><td>-</td><td>ㅈ ㅉ ㅊ</td><td>-</td><td>-</td></tr>
                 <tr><td>비음</td><td>ㅁ</td><td>ㄴ</td><td>-</td><td>ㅇ</td><td>-</td></tr>
                 <tr><td>유음</td><td>-</td><td>ㄹ</td><td>-</td><td>-</td><td>-</td></tr>
             </table>
         </div>
 
-        <button class="btn" onclick="goToQuiz()">다 외웠다! 퀴즈 시작</button>
+        <h3 class="study-title">단모음 체계표 (앞뒤/모양/높이)</h3>
+        <div class="table-wrapper">
+            <table>
+                <tr><th>높이\위치</th><th colspan="2">전설(앞)</th><th colspan="2">후설(뒤)</th></tr>
+                <tr><th>입술</th><th>평순</th><th>원순</th><th>평순</th><th>원순</th></tr>
+                <tr><td>고모음</td><td>ㅣ</td><td>ㅟ</td><td>ㅡ</td><td>ㅜ</td></tr>
+                <tr><td>중모음</td><td>ㅔ</td><td>ㅚ</td><td>ㅓ</td><td>ㅗ</td></tr>
+                <tr><td>저모음</td><td>ㅐ</td><td>-</td><td>ㅏ</td><td>-</td></tr>
+            </table>
+        </div>
+        <button class="btn" onclick="goToQuiz()" style="margin-top:20px;">공부 완료! 30문제 퀴즈 시작</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
+        <div id="timer">경과 시간: 0초</div>
         <h2 id="question">질문 로딩 중...</h2>
         <div id="options"></div>
         <button id="next-btn" class="btn hidden" onclick="loadNextQuestion()" style="margin-top:1rem;">다음 문제</button>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <div class="header">
+            <h1>🎉 테스트 종료!</h1>
+            <p id="final-score" style="font-size: 1.3rem;"></p>
+            <p id="final-time" style="color: #fbbf24;"></p>
+            <button class="btn" onclick="location.reload()">처음으로</button>
+        </div>
     </div>
 </div>
 
 <script>
     const quizData = [
-        { q: "다음 중 '입술소리'이면서 '비음'인 자음은?", a: ["ㅁ", "ㄴ", "ㅇ", "ㄹ"], cor: 0 },
-        { q: "자음 'ㅅ, ㅆ'은 소리 내는 방법상 어디에 해당할까요?", a: ["파열음", "마찰음", "파찰음", "유음"], cor: 1 },
-        { q: "전설 모음이면서 입술을 둥글게 모으는 원순 모음은?", a: ["ㅣ", "ㅟ", "ㅡ", "ㅜ"], cor: 1 },
-        { q: "혀의 높이가 가장 낮아 입이 크게 벌어지는 저모음은?", a: ["ㅣ", "ㅔ", "ㅐ", "ㅏ"], cor: 3 }
+        { q: "입술소리이면서 비음인 자음은?", a: ["ㅁ", "ㄴ", "ㅇ", "ㄹ"], cor: 0 },
+        { q: "자음 'ㅅ, ㅆ'은 어디에 해당할까요?", a: ["파열음", "마찰음", "파찰음", "유음"], cor: 1 },
+        { q: "전설 모음이면서 원순 모음인 것은?", a: ["ㅣ", "ㅟ", "ㅡ", "ㅜ"], cor: 1 },
+        { q: "혀의 높이가 가장 낮아 입이 크게 벌어지는 저모음은?", a: ["ㅣ", "ㅔ", "ㅐ", "ㅏ"], cor: 3 },
+        { q: "자음 중 '노란양말'에 해당하는 울림소리가 아닌 것은?", a: ["ㄴ", "ㄹ", "ㅁ", "ㅅ"], cor: 3 },
+        { q: "목청 사이에서 마찰을 일으켜 내는 소리는?", a: ["ㅎ", "ㅇ", "ㄹ", "ㄴ"], cor: 0 },
+        { q: "혀의 앞뒤 위치에 따른 분류가 아닌 것은?", a: ["전설 모음", "후설 모음", "고모음"], cor: 2 },
+        { q: "단모음은 모두 몇 개인가요?", a: ["8개", "10개", "12개", "21개"], cor: 1 },
+        { q: "입술 모양이 동그랗게 변하는 모음은?", a: ["평순 모음", "원순 모음"], cor: 1 },
+        { q: "자음 'ㅈ, ㅉ, ㅊ'의 소리 나는 위치는?", a: ["잇몸", "센입천장", "여린입천장", "목청"], cor: 1 },
+        { q: "공기를 막았다가 한 번에 터뜨리는 소리는?", a: ["파열음", "마찰음", "비음"], cor: 0 },
+        { q: "후설 모음 중 평순 모음이면서 고모음인 것은?", a: ["ㅡ", "ㅜ", "ㅓ", "ㅗ"], cor: 0 },
+        { q: "발음할 때 입술이나 혀가 변하는 모음은?", a: ["단모음", "이중 모음"], cor: 1 },
+        { q: "소리 내는 위치가 '여린입천장'인 자음은?", a: ["ㄱ, ㄲ, ㅋ", "ㄷ, ㄸ, ㅌ", "ㅂ, ㅃ, ㅍ"], cor: 0 },
+        { q: "혀의 높이가 높은 순서대로 나열된 것은?", a: ["고-중-저", "저-중-고", "중-고-저"], cor: 0 },
+        { q: "울림소리 중 혀 양옆으로 공기를 흘려보내는 소리는?", a: ["비음", "유음"], cor: 1 },
+        { q: "자음 'ㄷ, ㄸ, ㅌ'의 소리 나는 위치는?", a: ["입술", "잇몸", "센입천장"], cor: 1 },
+        { q: "입술을 둥글게 모으지 않는 모음은?", a: ["평순 모음", "원순 모음"], cor: 0 },
+        { q: "다음 중 파찰음에 해당하는 것은?", a: ["ㅂ", "ㅅ", "ㅈ", "ㅎ"], cor: 2 },
+        { q: "단모음 'ㅔ'와 'ㅐ' 중 혀의 높이가 더 높은 것은?", a: ["ㅔ", "ㅐ"], cor: 0 },
+        { q: "소리가 나는 위치가 같은 것끼리 묶인 것은?", a: ["ㅁ-ㅂ", "ㄴ-ㅈ", "ㄹ-ㅎ"], cor: 0 },
+        { q: "자음 'ㅇ'은 어느 위치에서 날까요?(받침 소리 기준)", a: ["목청", "여린입천장", "센입천장"], cor: 1 },
+        { q: "혀의 위치가 입안의 앞쪽에 있는 모음은?", a: ["전설 모음", "후설 모음"], cor: 0 },
+        { q: "예사소리-된소리-거센소리 짝이 맞지 않는 것은?", a: ["ㅂ-ㅃ-ㅍ", "ㅈ-ㅉ-ㅊ", "ㅅ-ㅆ-ㅎ"], cor: 2 },
+        { q: "공기가 코를 통과하면서 나는 소리는?", a: ["비음", "유음", "마찰음"], cor: 0 },
+        { q: "이중 모음 'ㅑ'는 어떤 모음들이 합쳐진 것일까요?", a: ["ㅣ+ㅏ", "ㅡ+ㅏ", "ㅗ+ㅏ"], cor: 0 },
+        { q: "단모음 체계표에서 '중모음'에 해당하지 않는 것은?", a: ["ㅔ", "ㅚ", "ㅓ", "ㅣ"], cor: 3 },
+        { q: "마찰음 'ㅎ'의 소리 나는 위치는?", a: ["목청", "입술", "잇몸"], cor: 0 },
+        { q: "자음 'ㄴ, ㄹ, ㅁ, ㅇ'의 공통점은?", a: ["안울림소리", "울림소리"], cor: 1 },
+        { q: "국어 음운 체계를 공부하니 기분이 어떤가요?", a: ["최고다", "할만하다", "마스터했다", "재밌다"], cor: 2 }
     ];
 
     let currentIdx = 0;
+    let score = 0;
+    let seconds = 0;
+    let timerId;
 
     function goToStudy() {
         document.getElementById('menu-screen').classList.add('hidden');
@@ -90,7 +137,15 @@
     function goToQuiz() {
         document.getElementById('study-screen').classList.add('hidden');
         document.getElementById('quiz-screen').classList.remove('hidden');
+        startTimer();
         loadQuestion();
+    }
+
+    function startTimer() {
+        timerId = setInterval(() => {
+            seconds++;
+            document.getElementById('timer').innerText = `경과 시간: ${seconds}초`;
+        }, 1000);
     }
 
     function loadQuestion() {
@@ -116,6 +171,7 @@
 
         if(idx === cor) {
             btn.classList.add('correct');
+            score++;
         } else {
             btn.classList.add('wrong');
             options[cor].classList.add('correct');
@@ -128,9 +184,16 @@
         if(currentIdx < quizData.length) {
             loadQuestion();
         } else {
-            alert('국어 퀴즈 완료! 메인 화면으로 돌아갑니다.');
-            location.reload();
+            showResult();
         }
+    }
+
+    function showResult() {
+        clearInterval(timerId);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('final-score').innerText = `30문제 중 ${score}문제를 맞혔습니다!`;
+        document.getElementById('final-time').innerText = `총 소요 시간: ${seconds}초`;
     }
 </script>
 </body>
