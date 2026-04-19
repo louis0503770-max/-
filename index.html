@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중2 기말고사 올킬 v4.0</title>
+    <title>중2 시험 마스터 v5.0 (심화 에디션)</title>
     <style>
         :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #818cf8; --success: #22c55e; --danger: #ef4444; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 700px; background: var(--card); padding: 1.5rem; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .container { width: 100%; max-width: 750px; background: var(--card); padding: 1.5rem; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
         .header { text-align: center; margin-bottom: 2rem; }
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .btn { padding: 16px; border: none; border-radius: 14px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
         .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-secondary { background: #475569; margin-top: 10px; width: 100%; }
         .hidden { display: none !important; }
         
-        /* 학습 카드 스타일 */
-        .study-box { background: #0f172a; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid var(--accent); }
-        .study-box h3 { margin-top: 0; color: var(--accent); }
-        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85rem; }
-        th, td { border: 1px solid #334155; padding: 8px; text-align: center; }
+        /* 심화 학습 스타일 */
+        .study-box { background: #0f172a; padding: 25px; border-radius: 16px; margin: 15px 0; border: 1px solid #334155; line-height: 1.8; }
+        .study-box h3 { color: #fbbf24; border-bottom: 2px solid #334155; padding-bottom: 8px; margin-top: 25px; }
+        .study-box h3:first-child { margin-top: 0; }
+        .important { color: #f87171; font-weight: bold; }
+        .formula { background: #1e293b; padding: 10px; border-radius: 8px; display: block; margin: 10px 0; color: #818cf8; font-family: monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #1e293b; border-radius: 10px; overflow: hidden; }
+        th, td { border: 1px solid #475569; padding: 12px; text-align: center; font-size: 0.9rem; }
         th { background: var(--primary); }
 
-        /* 퀴즈 스타일 */
-        #timer { text-align: right; color: #fbbf24; font-weight: bold; margin-bottom: 10px; }
-        .option-btn { background: #334155; margin-bottom: 8px; text-align: left; width: 100%; }
+        /* 퀴즈 타이머 */
+        #timer { text-align: right; color: #fbbf24; font-weight: bold; font-size: 1.2rem; }
+        .option-btn { background: #334155; margin-bottom: 10px; text-align: left; width: 100%; border: 1px solid #475569; font-size: 1.1rem; }
         .correct { background: var(--success) !important; }
         .wrong { background: var(--danger) !important; }
     </style>
@@ -32,25 +36,28 @@
 
 <div class="container">
     <div id="main-menu">
-        <div class="header"><h1>🎓 전과목 마스터 v4.0</h1><p>오늘의 학습 과목을 선택하세요</p></div>
+        <div class="header"><h1>🔥 시험 마스터 v5.0</h1><p>심화 개념까지 완벽하게 정복하세요</p></div>
         <div class="grid-menu">
-            <button class="btn" onclick="showSubMenu('korean')">국어</button>
-            <button class="btn" onclick="showSubMenu('math')" style="background:#ec4899;">수학</button>
-            <button class="btn" onclick="showSubMenu('english')" style="background:#10b981;">영어</button>
-            <button class="btn" onclick="showSubMenu('science')" style="background:#f59e0b;">과학</button>
+            <button class="btn" onclick="showSubMenu('korean')">국어 (심화)</button>
+            <button class="btn" onclick="showSubMenu('math')" style="background:#ec4899;">수학 (심화)</button>
+            <button class="btn" onclick="showSubMenu('english')" style="background:#10b981;">영어 (심화)</button>
+            <button class="btn" onclick="showSubMenu('science')" style="background:#f59e0b;">과학 (심화)</button>
         </div>
     </div>
 
     <div id="sub-menu" class="hidden">
         <div class="header"><h1 id="sub-title">과목명</h1><p>단원을 선택하세요</p></div>
         <div id="unit-buttons" class="grid-menu" style="grid-template-columns: 1fr;"></div>
-        <button class="btn" style="margin-top:15px; background:#475569; width:100%;" onclick="goHome()">메인으로</button>
+        <button class="btn btn-secondary" onclick="goBack('main-menu')">뒤로 가기</button>
     </div>
 
     <div id="study-screen" class="hidden">
-        <div class="header"><h2 id="study-title">단원 요약</h2></div>
+        <div class="header"><h2 id="study-title">심화 개념 정리</h2></div>
         <div id="study-content"></div>
-        <button class="btn" style="width:100%; margin-top:20px;" onclick="startQuiz()">개념 완료! 시험 시작</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button class="btn btn-secondary" onclick="goBack('sub-menu')">단원 선택</button>
+            <button class="btn" onclick="startQuiz()">심화 시험 시작</button>
+        </div>
     </div>
 
     <div id="quiz-screen" class="hidden">
@@ -61,41 +68,117 @@
     </div>
 
     <div id="result-screen" class="hidden">
-        <div class="header"><h1>수고하셨습니다!</h1><p id="final-res"></p><button class="btn" style="width:100%" onclick="goHome()">목록으로</button></div>
+        <div class="header"><h1>결과 확인</h1><p id="final-res" style="font-size: 1.3rem; margin: 25px 0;"></p>
+        <button class="btn" style="width:100%" onclick="goHome()">메인 메뉴로</button></div>
     </div>
 </div>
 
 <script>
     const data = {
-        korean: {
-            title: "국어",
-            units: [
-                { name: "음운 체계", study: "자음(파열, 마찰, 파찰 등)과 단모음 10개 체계를 복습하세요.", questions: [{q:"입술소리 비음은?", a:["ㅁ","ㄴ","ㅇ"], cor:0}] },
-                { name: "화자와 서술자", study: "1인칭(나), 3인칭(관찰자/전지적) 시점의 차이를 확인하세요.", questions: [{q:"작품 밖에서 속마음까지 아는 시점?", a:["전지적 작가","1인칭 주인공"], cor:0}] },
-                { name: "한글 창제 원리", study: "상형의 원리(발음기관/천지인)와 가획의 원리를 기억하세요.", questions: [{q:"ㄱ에 획을 더한 글자는?", a:["ㅋ","ㄴ","ㄷ"], cor:0}] }
-            ]
-        },
         math: {
-            title: "수학",
+            title: "수학 (심화)",
             units: [
-                { name: "유리수와 순환소수", study: "유한소수는 분모의 소인수가 2나 5뿐이어야 합니다.", questions: [{q:"다음 중 유한소수인 것은?", a:["1/3", "3/20", "5/6"], cor:1}] },
-                { name: "삼각형의 외심과 내심", study: "외심: 세 변의 수직이등분선의 교점 / 내심: 세 각의 이등분선의 교점", questions: [{q:"내심에서 세 변에 이르는 거리는?", a:["같다", "다르다"], cor:0}] }
+                {
+                    name: "유리수와 순환소수 심화",
+                    study: `
+                        <h3>1. 유한소수가 되는 조건 (심화)</h3>
+                        <p>- 분수를 <span class="important">기약분수</span>로 나타냈을 때, 분모의 소인수가 2 또는 5뿐이어야 함.</p>
+                        <p>- 분모에 다른 소인수(3, 7 등)가 있다면, 분자가 그 배수여서 약분되어야 유한소수가 됨.</p>
+                        <h3>2. 순환소수의 분수 표현 (공식)</h3>
+                        <span class="formula">0.abc(bc순환) = (abc - a) / 990</span>
+                        <p>- 분모: 순환마디 숫자 개수만큼 9, 소수점 아래 비순환 개수만큼 0</p>
+                        <p>- 분자: 전체 수에서 순환하지 않는 부분의 수를 뺌</p>
+                    `,
+                    questions: [{q:"분수 7/(2² × 5 × x)가 유한소수가 되기 위한 x가 아닌 것은?", a:["7", "14", "21"], cor:2}]
+                },
+                {
+                    name: "삼각형의 외심/내심 심화",
+                    study: `
+                        <h3>1. 외심 (Circumcenter) 응용</h3>
+                        <p>- 위치: <span class="important">직각삼각형의 외심은 빗변의 중점</span>에 있다! (매우 중요)</p>
+                        <p>- 각도 공식: ∠BOC = 2∠A</p>
+                        <h3>2. 내심 (Incenter) 응용</h3>
+                        <p>- 삼각형의 넓이 공식: <span class="formula">S = 1/2 × r × (a + b + c)</span> (r: 내저번 반지름, a,b,c: 세 변 길이)</p>
+                        <p>- 각도 공식: ∠BIC = 90° + 1/2∠A</p>
+                    `,
+                    questions: [{q:"내저번 반지름이 2이고 세 변이 5, 12, 13인 삼각형의 넓이는?", a:["30", "60", "15"], cor:0}]
+                }
             ]
         },
         english: {
-            title: "영어",
+            title: "영어 (심화)",
             units: [
-                { name: "현재완료 (have+p.p.)", study: "완료, 경험, 계속, 결과 4가지 용법을 구분하세요.", questions: [{q:"I have ( ) to Paris. (가본 적 있다)", a:["been", "gone"], cor:0}] },
-                { name: "비교급과 최상급", study: "more/most, -er/-est 규칙과 원급 비교(as~as)를 체크하세요.", questions: [{q:"better의 원급은?", a:["good", "bad", "well"], cor:0}] },
-                { name: "수여동사 (4→3형식)", study: "to(give, send), for(make, buy), of(ask) 전치사를 주의하세요.", questions: [{q:"I made him a cake. -> I made a cake ( ) him.", a:["to", "for", "of"], cor:1}] },
-                { name: "주격 관계대명사", study: "Who, Which, That 뒤에 바로 동사가 오며 선행사를 수식합니다.", questions: [{q:"I know a boy ( ) likes soccer.", a:["who", "which"], cor:0}] }
+                {
+                    name: "현재완료 & 과거시점 금지",
+                    study: `
+                        <h3>1. 현재완료와 같이 쓸 수 없는 단어</h3>
+                        <p>- <span class="important">Yesterday, ago, last week, when...</span> 처럼 명확한 과거 시점은 현재완료와 쓸 수 없음!</p>
+                        <p>- 예: I have met him yesterday (X) → I met him yesterday (O)</p>
+                        <h3>2. Have been vs Have gone</h3>
+                        <p>- Have been to: ~에 가본 적 있다 (경험)</p>
+                        <p>- Have gone to: ~에 가버렸다 (결과 - 지금 여기 없음)</p>
+                    `,
+                    questions: [{q:"다음 중 어법상 틀린 문장은?", a:["I have been to Seoul.", "He has gone to USA.", "I have seen him ago."], cor:2}]
+                },
+                {
+                    name: "수여동사 & 관계대명사 심화",
+                    study: `
+                        <h3>1. 4형식 → 3형식 전치사 암기 (for)</h3>
+                        <p>- <span class="important">MBC GET PA:</span> Make, Buy, Cook, Get, Play, Ask(of)</p>
+                        <p>- 위 동사들은 간접목적어가 뒤로 갈 때 전치사 for를 사용함.</p>
+                        <h3>2. 주격 관계대명사의 생략</h3>
+                        <p>- <span class="important">[주격 관대 + be동사]</span>는 통째로 생략 가능!</p>
+                        <p>- 예: The boy (who is) running there is my brother.</p>
+                    `,
+                    questions: [{q:"I bought my mom a bag. 3형식 전환 시 옳은 것은?", a:["I bought a bag to my mom.", "I bought a bag for my mom."], cor:1}]
+                }
             ]
         },
         science: {
-            title: "과학",
+            title: "과학 (심화)",
             units: [
-                { name: "빛과 파동", study: "반사의 법칙, 굴절, 거울과 렌즈의 특징, 파동의 요소를 공부하세요.", questions: [{q:"빛이 꺾이는 현상은?", a:["반사", "굴절", "회절"], cor:1}] },
-                { name: "물질의 특성 & 혼합물 분리", study: "밀도, 용해도, 끓는점 차이를 이용한 분리 방법을 익히세요.", questions: [{q:"물과 기름을 분리할 때 이용하는 특성은?", a:["밀도", "끓는점", "용해도"], cor:0}] }
+                {
+                    name: "빛의 굴절과 파동 심화",
+                    study: `
+                        <h3>1. 빛의 굴절 법칙</h3>
+                        <p>- 속력이 <span class="important">느린 곳으로 굴절</span>할 때 법선 쪽으로 꺾임 (공기 → 물).</p>
+                        <p>- 굴절률이 클수록 빛은 더 많이 꺾임.</p>
+                        <h3>2. 소리의 3요소</h3>
+                        <ul>
+                            <li><b>세기:</b> 진폭 (클수록 큰 소리)</li>
+                            <li><b>높낮이:</b> 진동수 (많을수록 높은 소리)</li>
+                            <li><b>맵시:</b> 파형 (목소리가 다른 이유)</li>
+                        </ul>
+                    `,
+                    questions: [{q:"소리의 높낮이를 결정하는 요소는?", a:["진폭", "진동수", "파형"], cor:1}]
+                },
+                {
+                    name: "물질의 특성 & 용해도 심화",
+                    study: `
+                        <h3>1. 밀도와 상태 변화</h3>
+                        <p>- 일반적으로 고체 > 액체 > 기체 순으로 밀도가 크지만, <span class="important">물은 예외로 액체 > 고체</span> (얼음이 물에 뜸).</p>
+                        <h3>2. 용해도 곡선 해석</h3>
+                        <p>- <span class="important">석출량 계산:</span> (처음 녹아있던 양) - (냉각한 온도에서 최대로 녹을 수 있는 양)</p>
+                        <p>- 기체의 용해도는 온도가 낮을수록, 압력이 높을수록 커짐 (사이다 차갑게).</p>
+                    `,
+                    questions: [{q:"온도를 낮출 때 가라앉는 고체의 양을 무엇이라 하나요?", a:["석출량", "용해량", "포화량"], cor:0}]
+                }
+            ]
+        },
+        korean: {
+            title: "국어 (심화)",
+            units: [
+                {
+                    name: "음운 체계 & 발음 원리",
+                    study: `
+                        <h3>1. 파찰음의 비밀</h3>
+                        <p>- <span class="important">ㅈ, ㅉ, ㅊ:</span> 파열음(막았다가) + 마찰음(터뜨리며 마찰)의 성질을 동시에 가짐.</p>
+                        <h3>2. 이중 모음의 구조</h3>
+                        <p>- 단모음과 달리 발음할 때 입 모양이 변함.</p>
+                        <p>- <span class="important">반모음 + 단모음</span>의 결합으로 이루어짐 (예: ㅑ = ㅣ[반모음] + ㅏ).</p>
+                    `,
+                    questions: [{q:"다음 중 발음 시 입술 모양이나 혀의 위치가 변하는 것은?", a:["ㅏ", "ㅣ", "ㅟ", "ㅑ"], cor:3}]
+                }
             ]
         }
     };
@@ -130,40 +213,59 @@
         document.getElementById('study-screen').classList.add('hidden');
         document.getElementById('quiz-screen').classList.remove('hidden');
         curQIdx = 0; score = 0; sec = 0;
+        document.getElementById('timer').innerText = '0초';
         timer = setInterval(() => { sec++; document.getElementById('timer').innerText = sec + '초'; }, 1000);
         loadQ();
     }
 
     function loadQ() {
         const q = data[curSubject].units[curUnit].questions[curQIdx];
-        document.getElementById('question').innerText = `Q. ${q.q}`;
+        document.getElementById('question').innerText = `Q${curQIdx + 1}. ${q.q}`;
         const opts = document.getElementById('options');
         opts.innerHTML = '';
         q.a.forEach((t, i) => {
             const b = document.createElement('button');
             b.className = 'btn option-btn';
             b.innerText = t;
-            b.onclick = () => {
-                if(i === q.cor) { b.classList.add('correct'); score++; }
-                else { b.classList.add('wrong'); }
-                document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-                document.getElementById('next-btn').classList.remove('hidden');
-            };
+            b.onclick = () => checkAnswer(i, b);
             opts.appendChild(b);
         });
+        document.getElementById('next-btn').classList.add('hidden');
+    }
+
+    function checkAnswer(idx, btn) {
+        const q = data[curSubject].units[curUnit].questions[curQIdx];
+        const allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.disabled = true);
+        if(idx === q.cor) {
+            btn.classList.add('correct');
+            score++;
+        } else {
+            btn.classList.add('wrong');
+            allBtns[q.cor].classList.add('correct');
+        }
+        document.getElementById('next-btn').classList.remove('hidden');
     }
 
     function loadNext() {
         curQIdx++;
         if(curQIdx < data[curSubject].units[curUnit].questions.length) {
-            document.getElementById('next-btn').classList.add('hidden');
             loadQ();
         } else {
-            clearInterval(timer);
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            document.getElementById('final-res').innerText = `${score} / ${data[curSubject].units[curUnit].questions.length} 정답! (${sec}초 소요)`;
+            showResult();
         }
+    }
+
+    function showResult() {
+        clearInterval(timer);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('final-res').innerText = `${data[curSubject].units[curUnit].questions.length}문제 중 ${score} 정답! (소요시간: ${sec}초)`;
+    }
+
+    function goBack(targetId) {
+        document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+        document.getElementById(targetId).classList.remove('hidden');
     }
 
     function goHome() { location.reload(); }
