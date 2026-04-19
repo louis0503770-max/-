@@ -1,181 +1,133 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중2 기말고사 마스터 v15.0 Final</title>
+    <title>Web-LORANT: Neon & Bucky Range</title>
     <style>
-        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #c084fc; --success: #22c55e; --danger: #ef4444; --warning: #fbbf24; --info: #38bdf8; }
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; min-height: 100vh; line-height: 1.6; }
-        .container { width: 100%; max-width: 1000px; background: var(--card); padding: 2.5rem; border-radius: 40px; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8); border: 2px solid #334155; position: relative; overflow: hidden; }
-        .header { text-align: center; margin-bottom: 3rem; }
-        .header h1 { font-size: 2.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        :root { --val-red: #ff4655; --val-blue: #00f3ff; --val-bg: #0f1923; --val-white: #ece8e1; }
+        body { margin: 0; background: var(--val-bg); color: var(--val-white); font-family: 'Inter', sans-serif; overflow: hidden; cursor: crosshair; }
         
-        .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .card-btn { background: #334155; padding: 30px; border-radius: 24px; border: 1px solid #475569; cursor: pointer; transition: 0.4s; text-align: center; }
-        .card-btn:hover { background: var(--primary); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4); }
-        .card-btn h2 { margin: 0; font-size: 1.5rem; }
-        .card-btn p { font-size: 0.9rem; opacity: 0.7; margin-top: 10px; }
+        /* 발로란트 로고 스타일 배경 */
+        body::before { content: "VALORANT"; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 15vw; font-weight: 900; color: rgba(255, 70, 85, 0.03); z-index: -1; }
 
-        .hidden { display: none !important; }
-        .study-box { background: #0f172a; padding: 30px; border-radius: 24px; margin: 20px 0; border: 1px solid var(--primary); }
-        .cheat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
-        .cheat-item { background: #1e293b; padding: 15px; border-radius: 15px; border-left: 5px solid var(--warning); }
+        /* 대시보드 UI */
+        .header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; border-bottom: 1px solid rgba(236, 232, 225, 0.1); background: rgba(15, 25, 35, 0.8); z-index: 100; }
+        .logo { font-weight: 900; letter-spacing: 5px; color: var(--val-red); font-size: 1.5rem; }
+        .logo span { color: var(--val-blue); }
+        
+        .stat-group { display: flex; gap: 40px; }
+        .stat-item { text-align: right; }
+        .stat-label { font-size: 0.7rem; color: #7e7e7e; text-transform: uppercase; }
+        .stat-value { font-size: 2rem; font-weight: 800; }
 
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #1e293b; border-radius: 10px; overflow: hidden; }
-        th, td { border: 1px solid #334155; padding: 12px; text-align: center; font-size: 0.9rem; }
-        th { background: var(--primary); color: white; }
+        /* 게임 화면 */
+        #game-canvas { display: block; width: 100vw; height: 100vh; }
 
-        .quiz-option { width: 100%; text-align: left; padding: 18px; background: #334155; border: 1px solid #475569; color: white; border-radius: 12px; margin-bottom: 12px; cursor: pointer; font-size: 1.1rem; }
-        .quiz-option:hover { background: #475569; }
-        #timer { font-size: 2rem; font-weight: 900; color: var(--warning); text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
+        /* 오버레이 UI */
+        #ui-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 100; }
+        .btn-start { background: var(--val-red); color: var(--val-bg); border: none; padding: 20px 60px; font-size: 1.2rem; font-weight: 900; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); cursor: pointer; transition: 0.3s; }
+        .btn-start:hover { transform: scale(1.1); filter: brightness(1.2); }
+
+        /* 조준선 커스터마이징 */
+        #crosshair { position: fixed; width: 20px; height: 20px; pointer-events: none; z-index: 200; transform: translate(-50%, -50%); }
+        .ch-line { position: absolute; background: #00ff00; }
+        .v { width: 2px; height: 8px; left: 9px; }
+        .h { width: 8px; height: 2px; top: 9px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="main-menu">
-        <div class="header">
-            <h1>🏆 FINAL ABSOLUTE v15.0</h1>
-            <p>2026학년도 중2 기말고사 최종 합격 전략 시스템</p>
-        </div>
-        <div class="main-grid">
-            <div class="card-btn" onclick="showCheatSheet()" style="border-color: var(--warning);">
-                <h2 style="color: var(--warning);">⚡ 10분 벼락치기</h2>
-                <p>시험 직전 핵심 키워드 총정리</p>
+    <div id="crosshair">
+        <div class="ch-line v" style="top:0;"></div>
+        <div class="ch-line v" style="bottom:0;"></div>
+        <div class="ch-line h" style="left:0;"></div>
+        <div class="ch-line h" style="right:0;"></div>
+    </div>
+
+    <div class="header">
+        <div class="logo">WEB-LORANT <span>[NEON]</span></div>
+        <div class="stat-group">
+            <div class="stat-item">
+                <div class="stat-label">Time</div>
+                <div id="timer" class="stat-value">30</div>
             </div>
-            <div class="card-btn" onclick="startFullExam()" style="border-color: var(--success);">
-                <h2 style="color: var(--success);">📝 실전 모의고사</h2>
-                <p>전 과목 랜덤 10문항 통합 테스트</p>
+            <div class="stat-item">
+                <div class="stat-label">Score</div>
+                <div id="score" class="stat-value">0</div>
             </div>
-            <div class="card-btn" onclick="showSubMenu('math')"><h2>📐 수학 마스터</h2><p>닮음/무게중심/확률/피타</p></div>
-            <div class="card-btn" onclick="showSubMenu('science')"><h2>🧪 과학 마스터</h2><p>동물/에너지/파동/열</p></div>
         </div>
     </div>
 
-    <div id="cheat-screen" class="hidden">
-        <div class="header"><h1>⚡ 핵심 요약 Cheat Sheet</h1></div>
-        <div class="cheat-grid">
-            <div class="cheat-item"><h3>📐 수학 공식</h3>- 피타: a²+b²=c²<br>- 무게중심: 중선 2:1 내분<br>- 확률: 합(+), 곱(×)</div>
-            <div class="cheat-item"><h3>🧪 과학 암기</h3>- 영양소: 녹(청람)/포(황적)/단(보라)/지(선홍)<br>- 순환: 좌심실→대동맥 / 폐정맥→좌심방</div>
-            <div class="cheat-item"><h3>📖 국어/영어</h3>- 언어: 자의성, 사회성, 역사성<br>- 5형식: make/have/let + 동사원형</div>
-        </div>
-        <button class="card-btn" style="width:100%; margin-top:30px;" onclick="goHome()">메인으로 돌아가기</button>
+    <div id="ui-overlay">
+        <h1 style="font-size: 3rem; margin-bottom: 5px;">NEON's Range</h1>
+        <p style="color: var(--val-blue); font-size: 1.2rem; margin-bottom: 30px;">Weapon: BUCKY (Press E to Dash)</p>
+        <button class="btn-start" onclick="startGame()">GO, GO, GO!</button>
     </div>
 
-    <div id="quiz-screen" class="hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <span id="quiz-info" style="font-weight:bold; color:var(--accent);">과목명</span>
-            <div id="timer">00초</div>
-        </div>
-        <h2 id="question" style="margin-bottom:30px; line-height:1.4;"></h2>
-        <div id="options"></div>
-        <button id="next-btn" class="card-btn hidden" style="width:100%;" onclick="loadNext()">다음 문제</button>
-    </div>
-
-    <div id="result-screen" class="hidden">
-        <div class="header">
-            <h1>검정 완료</h1>
-            <div id="final-score" style="font-size: 4rem; font-weight: 900; color: var(--success); margin: 20px 0;">0점</div>
-            <p id="result-comment" style="font-size: 1.2rem; margin-bottom: 30px;"></p>
-            <button class="card-btn" style="width:100%; background: var(--primary);" onclick="goHome()">완벽해질 때까지 다시하기</button>
-        </div>
-    </div>
-</div>
+    <canvas id="game-canvas"></canvas>
 
 <script>
-    const allQuestions = [
-        {s:"과학", q:"단백질 검출 시 뷰렛 용액을 넣었을 때 색깔 변화는?", a:["청람색", "보라색", "선홍색"], cor:1},
-        {s:"수학", q:"삼각형 무게중심 G는 중선의 길이를 꼭짓점으로부터 몇 대 몇으로 나누는가?", a:["1:1", "2:1", "3:1"], cor:1},
-        {s:"영어", q:"사역동사 make의 목적격 보어로 올 수 있는 형태는?", a:["to부정사", "동사원형", "ing"], cor:1},
-        {s:"국어", q:"언어의 특성 중 '말소리와 의미의 관계가 필연적이지 않다'는 것은?", a:["자의성", "사회성", "역사성"], cor:0},
-        {s:"과학", q:"오줌 형성 과정 중 포도당이 100% 재흡수되는 곳은?", a:["사구체", "세뇨관", "방광"], cor:1},
-        {s:"수학", q:"세 변의 길이가 (5, 12, x)인 직각삼각형에서 빗변 x의 길이는?", a:["13", "14", "15"], cor:0},
-        {s:"과학", q:"소리(음파)와 같이 매질의 진동 방향과 파동 진행 방향이 나란한 파동은?", a:["횡파", "종파"], cor:1},
-        {s:"수학", q:"주사위 두 개를 동시에 던질 때, 두 눈의 합이 12가 될 확률은?", a:["1/6", "1/12", "1/36"], cor:2},
-        {s:"영어", q:"과거에 '~했어야 했는데 (후회)'를 뜻하는 표현은?", a:["must have pp", "should have pp", "cannot have pp"], cor:1},
-        {s:"과학", q:"비열이 큰 물질일수록 온도가 더 천천히 변한다.", a:["O", "X"], cor:0}
-    ];
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    const ch = document.getElementById('crosshair');
+    const scoreEl = document.getElementById('score');
+    const timerEl = document.getElementById('timer');
+    const overlay = document.getElementById('ui-overlay');
 
-    let currentQuizSet = [];
-    let curIdx = 0;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // 게임 상태
     let score = 0;
-    let sec = 0;
-    let timer;
+    let timeLeft = 30;
+    let gameActive = false;
+    let target = { x: 0, y: 0, r: 35 };
+    let particles = [];
+    let mx = 0, my = 0; // 마우스 위치
 
-    function goHome() { location.reload(); }
+    // 네온 이미지 (투명 배경)
+    const neonImg = new Image();
+    neonImg.src = 'https://media.valorant-api.com/agents/bb2a4430-43ac-448c-9523-32f259eb85ac/fullportrait.png';
 
-    function showCheatSheet() {
-        document.getElementById('main-menu').classList.add('hidden');
-        document.getElementById('cheat-screen').classList.remove('hidden');
-    }
+    // 플레이어 (네온) 객체
+    const player = { x: canvas.width/2, y: canvas.height/2, w: 200, h: 250, targetX: canvas.width/2, targetY: canvas.height/2, speed: 0.1 };
 
-    function startFullExam() {
-        currentQuizSet = [...allQuestions].sort(() => Math.random() - 0.5);
-        setupQuiz("실전 모의고사 (10문항)");
-    }
+    // 조준점 마우스 따라다니기 및 위치 저장
+    window.addEventListener('mousemove', (e) => {
+        ch.style.left = e.clientX + 'px';
+        ch.style.top = e.clientY + 'px';
+        mx = e.clientX;
+        my = e.clientY;
+        player.targetX = mx;
+        player.targetY = my;
+    });
 
-    function showSubMenu(sub) {
-        currentQuizSet = allQuestions.filter(q => q.s === (sub === 'math' ? '수학' : '과학'));
-        setupQuiz(`${sub.toUpperCase()} 집중 훈련`);
-    }
-
-    function setupQuiz(title) {
-        document.getElementById('main-menu').classList.add('hidden');
-        document.getElementById('quiz-screen').classList.remove('hidden');
-        document.getElementById('quiz-info').innerText = title;
-        curIdx = 0; score = 0; sec = 0;
-        timer = setInterval(() => { sec++; document.getElementById('timer').innerText = sec + '초'; }, 1000);
-        loadQ();
-    }
-
-    function loadQ() {
-        const q = currentQuizSet[curIdx];
-        document.getElementById('question').innerText = `Q${curIdx+1}. ${q.q}`;
-        const opts = document.getElementById('options');
-        opts.innerHTML = '';
-        q.a.forEach((t, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'quiz-option';
-            btn.innerText = t;
-            btn.onclick = () => checkAnswer(i, btn);
-            opts.appendChild(btn);
-        });
-        document.getElementById('next-btn').classList.add('hidden');
-    }
-
-    function checkAnswer(idx, btn) {
-        const q = currentQuizSet[curIdx];
-        const allBtns = document.querySelectorAll('.quiz-option');
-        allBtns.forEach(b => b.disabled = true);
-        if(idx === q.cor) {
-            btn.style.background = "var(--success)";
-            score++;
-        } else {
-            btn.style.background = "var(--danger)";
-            allBtns[q.cor].style.background = "var(--success)";
+    // 대시 스킬 (E 키)
+    window.addEventListener('keydown', (e) => {
+        if (!gameActive) return;
+        if (e.code === 'KeyE') {
+            player.x = mx;
+            player.y = my;
+            player.speed = 0.5; // 대시 중 가속
+            // 전기 이펙트 추가 가능 (추후 구현)
         }
-        document.getElementById('next-btn').classList.remove('hidden');
+    });
+
+    window.addEventListener('keyup', (e) => { if (e.code === 'KeyE') player.speed = 0.1; });
+
+    function spawnTarget() {
+        target.r = Math.random() * (45 - 25) + 25;
+        target.x = Math.random() * (canvas.width - target.r * 2) + target.r;
+        target.y = Math.random() * (canvas.height - target.r * 2 - 100) + target.r + 100;
     }
 
-    function loadNext() {
-        curIdx++;
-        if(curIdx < currentQuizSet.length) { loadQ(); }
-        else { finishExam(); }
-    }
-
-    function finishExam() {
-        clearInterval(timer);
-        document.getElementById('quiz-screen').classList.add('hidden');
-        document.getElementById('result-screen').classList.remove('hidden');
-        const finalPercent = Math.round((score / currentQuizSet.length) * 100);
-        document.getElementById('final-score').innerText = `${finalPercent}점`;
-        
-        let comment = "훌륭합니다! 이대로만 하면 기말고사 1등은 따놓은 당상이에요.";
-        if(finalPercent < 80) comment = "조금만 더! 벼락치기 모드로 약한 부분을 보충해보세요.";
-        if(finalPercent < 50) comment = "기본 개념부터 다시! v1~v14 단원별 학습을 추천합니다.";
-        document.getElementById('result-comment').innerText = comment;
-    }
-</script>
-</body>
-</html>
+    function createExplosion(x, y) {
+        for (let i = 0; i < 15; i++) {
+            particles.push({
+                x, y,
+                vx: (Math.random() - 0.5) * 8,
+                vy: (Math.random() - 0.5) * 8,
+                r: Math.random() * 5 + 2,
+                color: Math.random()
