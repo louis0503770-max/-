@@ -3,60 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중2 시험 마스터 v5.0 (심화 에디션)</title>
+    <title>중2 기말고사 족보 킬러 v5.5</title>
     <style>
-        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #818cf8; --success: #22c55e; --danger: #ef4444; }
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 750px; background: var(--card); padding: 1.5rem; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-        .header { text-align: center; margin-bottom: 2rem; }
+        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #818cf8; --success: #22c55e; --danger: #ef4444; --warning: #fbbf24; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; line-height: 1.6; }
+        .container { width: 100%; max-width: 800px; background: var(--card); padding: 1.8rem; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .header { text-align: center; margin-bottom: 2rem; border-bottom: 1px solid #334155; padding-bottom: 1rem; }
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .btn { padding: 16px; border: none; border-radius: 14px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-secondary { background: #475569; margin-top: 10px; width: 100%; }
+        .btn { padding: 18px; border: none; border-radius: 14px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+        .btn-secondary { background: #475569; margin-top: 15px; width: 100%; }
         .hidden { display: none !important; }
         
-        /* 심화 학습 스타일 */
-        .study-box { background: #0f172a; padding: 25px; border-radius: 16px; margin: 15px 0; border: 1px solid #334155; line-height: 1.8; }
-        .study-box h3 { color: #fbbf24; border-bottom: 2px solid #334155; padding-bottom: 8px; margin-top: 25px; }
-        .study-box h3:first-child { margin-top: 0; }
-        .important { color: #f87171; font-weight: bold; }
-        .formula { background: #1e293b; padding: 10px; border-radius: 8px; display: block; margin: 10px 0; color: #818cf8; font-family: monospace; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #1e293b; border-radius: 10px; overflow: hidden; }
-        th, td { border: 1px solid #475569; padding: 12px; text-align: center; font-size: 0.9rem; }
+        /* 초강력 개념 학습 스타일 */
+        .study-box { background: #0f172a; padding: 25px; border-radius: 18px; margin: 15px 0; border: 1px solid #475569; }
+        .study-box h2 { color: var(--warning); border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-top: 30px; }
+        .study-box h2:first-child { margin-top: 0; }
+        .study-box h3 { color: var(--accent); margin-bottom: 5px; }
+        .important-note { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 10px 15px; margin: 10px 0; font-size: 0.95rem; }
+        .formula-box { background: #1e293b; padding: 15px; border-radius: 10px; margin: 10px 0; color: #a5f3fc; font-family: 'Consolas', monospace; border: 1px dashed var(--accent); }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #1e293b; border-radius: 8px; overflow: hidden; }
+        th, td { border: 1px solid #475569; padding: 12px; text-align: center; font-size: 0.85rem; }
         th { background: var(--primary); }
 
-        /* 퀴즈 타이머 */
-        #timer { text-align: right; color: #fbbf24; font-weight: bold; font-size: 1.2rem; }
-        .option-btn { background: #334155; margin-bottom: 10px; text-align: left; width: 100%; border: 1px solid #475569; font-size: 1.1rem; }
-        .correct { background: var(--success) !important; }
-        .wrong { background: var(--danger) !important; }
+        /* 퀴즈/타이머 */
+        #timer { text-align: right; color: var(--warning); font-weight: bold; font-size: 1.3rem; margin-bottom: 15px; }
+        .option-btn { background: #334155; margin-bottom: 12px; text-align: left; width: 100%; border: 1px solid #475569; font-size: 1.1rem; }
+        .correct { background: var(--success) !important; border-color: var(--success); }
+        .wrong { background: var(--danger) !important; border-color: var(--danger); }
+        #question { font-size: 1.3rem; margin-bottom: 25px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="main-menu">
-        <div class="header"><h1>🔥 시험 마스터 v5.0</h1><p>심화 개념까지 완벽하게 정복하세요</p></div>
+        <div class="header"><h1>📝 중2 기말 ALL-IN-ONE</h1><p>범위 내 모든 개념을 영혼까지 끌어모았습니다.</p></div>
         <div class="grid-menu">
-            <button class="btn" onclick="showSubMenu('korean')">국어 (심화)</button>
-            <button class="btn" onclick="showSubMenu('math')" style="background:#ec4899;">수학 (심화)</button>
-            <button class="btn" onclick="showSubMenu('english')" style="background:#10b981;">영어 (심화)</button>
-            <button class="btn" onclick="showSubMenu('science')" style="background:#f59e0b;">과학 (심화)</button>
+            <button class="btn" onclick="showSubMenu('korean')">국어 (음운/화자/창제)</button>
+            <button class="btn" onclick="showSubMenu('math')" style="background:#ec4899;">수학 (유리수/도형)</button>
+            <button class="btn" onclick="showSubMenu('english')" style="background:#10b981;">영어 (현재완료/관대)</button>
+            <button class="btn" onclick="showSubMenu('science')" style="background:#f59e0b;">과학 (빛/물질)</button>
         </div>
     </div>
 
     <div id="sub-menu" class="hidden">
-        <div class="header"><h1 id="sub-title">과목명</h1><p>단원을 선택하세요</p></div>
+        <div class="header"><h1 id="sub-title"></h1><p>공부할 단원을 고르세요</p></div>
         <div id="unit-buttons" class="grid-menu" style="grid-template-columns: 1fr;"></div>
-        <button class="btn btn-secondary" onclick="goBack('main-menu')">뒤로 가기</button>
+        <button class="btn btn-secondary" onclick="goBack('main-menu')">전체 과목으로</button>
     </div>
 
     <div id="study-screen" class="hidden">
-        <div class="header"><h2 id="study-title">심화 개념 정리</h2></div>
+        <div class="header"><h1 id="study-title"></h1></div>
         <div id="study-content"></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <button class="btn btn-secondary" onclick="goBack('sub-menu')">단원 선택</button>
-            <button class="btn" onclick="startQuiz()">심화 시험 시작</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top:20px;">
+            <button class="btn btn-secondary" style="margin-top:0;" onclick="goBack('sub-menu')">이전 화면</button>
+            <button class="btn" onclick="startQuiz()">개념 마스터! 시험 시작</button>
         </div>
     </div>
 
@@ -68,125 +70,194 @@
     </div>
 
     <div id="result-screen" class="hidden">
-        <div class="header"><h1>결과 확인</h1><p id="final-res" style="font-size: 1.3rem; margin: 25px 0;"></p>
-        <button class="btn" style="width:100%" onclick="goHome()">메인 메뉴로</button></div>
+        <div class="header"><h1>테스트 결과</h1><p id="final-res" style="font-size: 1.3rem; margin: 30px 0;"></p>
+        <button class="btn" style="width:100%" onclick="goHome()">메인으로</button></div>
     </div>
 </div>
 
 <script>
     const data = {
-        math: {
-            title: "수학 (심화)",
+        korean: {
+            title: "국어 시험 범위",
             units: [
                 {
-                    name: "유리수와 순환소수 심화",
+                    name: "1. 음운 체계 (자음/모음)",
                     study: `
-                        <h3>1. 유한소수가 되는 조건 (심화)</h3>
-                        <p>- 분수를 <span class="important">기약분수</span>로 나타냈을 때, 분모의 소인수가 2 또는 5뿐이어야 함.</p>
-                        <p>- 분모에 다른 소인수(3, 7 등)가 있다면, 분자가 그 배수여서 약분되어야 유한소수가 됨.</p>
-                        <h3>2. 순환소수의 분수 표현 (공식)</h3>
-                        <span class="formula">0.abc(bc순환) = (abc - a) / 990</span>
-                        <p>- 분모: 순환마디 숫자 개수만큼 9, 소수점 아래 비순환 개수만큼 0</p>
-                        <p>- 분자: 전체 수에서 순환하지 않는 부분의 수를 뺌</p>
+                        <h2>① 음운의 개념</h2>
+                        <p>뜻을 구별해 주는 가장 작은 소리의 단위. 자음(19개)과 모음(21개)으로 나뉨.</p>
+                        <h2>② 자음 체계표 (중요)</h2>
+                        <table>
+                            <tr><th>방법\\위치</th><th>입술</th><th>잇몸</th><th>센천장</th><th>여린천장</th><th>목청</th></tr>
+                            <tr><td>파열음</td><td>ㅂㅃㅍ</td><td>ㄷㄸㅌ</td><td>-</td><td>ㄱㄲㅋ</td><td>-</td></tr>
+                            <tr><td>파찰음</td><td>-</td><td>-</td><td>ㅈㅉㅊ</td><td>-</td><td>-</td></tr>
+                            <tr><td>마찰음</td><td>-</td><td>ㅅㅆ</td><td>-</td><td>-</td><td>ㅎ</td></tr>
+                            <tr><td>비음</td><td>ㅁ</td><td>ㄴ</td><td>-</td><td>ㅇ</td><td>-</td></tr>
+                            <tr><td>유음</td><td>-</td><td>ㄹ</td><td>-</td><td>-</td><td>-</td></tr>
+                        </table>
+                        <div class='important-note'>※ <b>안울림소리:</b> 파열, 파찰, 마찰음 / <b>울림소리:</b> 비음(ㅁ,ㄴ,ㅇ), 유음(ㄹ)</div>
+                        <h2>③ 단모음 체계 (10개)</h2>
+                        <p>- <b>전설(앞):</b> ㅣ, ㅟ, ㅔ, ㅚ, ㅐ / <b>후설(뒤):</b> ㅡ, ㅜ, ㅓ, ㅗ, ㅏ</p>
+                        <p>- <b>원순(입술 둥글게):</b> ㅟ, ㅚ, ㅜ, ㅗ</p>
                     `,
-                    questions: [{q:"분수 7/(2² × 5 × x)가 유한소수가 되기 위한 x가 아닌 것은?", a:["7", "14", "21"], cor:2}]
+                    questions: [{q:"입술소리이면서 비음인 자음은?", a:["ㅁ","ㄴ","ㅇ","ㄹ"], cor:0}, {q:"단모음 중 전설이면서 원순인 것은?", a:["ㅣ","ㅟ","ㅡ","ㅜ"], cor:1}]
                 },
                 {
-                    name: "삼각형의 외심/내심 심화",
+                    name: "2. 화자와 서술자",
                     study: `
-                        <h3>1. 외심 (Circumcenter) 응용</h3>
-                        <p>- 위치: <span class="important">직각삼각형의 외심은 빗변의 중점</span>에 있다! (매우 중요)</p>
-                        <p>- 각도 공식: ∠BOC = 2∠A</p>
-                        <h3>2. 내심 (Incenter) 응용</h3>
-                        <p>- 삼각형의 넓이 공식: <span class="formula">S = 1/2 × r × (a + b + c)</span> (r: 내저번 반지름, a,b,c: 세 변 길이)</p>
-                        <p>- 각도 공식: ∠BIC = 90° + 1/2∠A</p>
+                        <h2>① 시의 화자</h2>
+                        <p>시 속에서 말하는 이. 작가의 의도를 효과적으로 전달하기 위해 설정됨. (작가와 반드시 일치하지 않음)</p>
+                        <h2>② 소설의 서술자 (시점)</h2>
+                        <table>
+                            <tr><th>구분</th><th>작품 안(나)</th><th>작품 밖</th></tr>
+                            <tr><td><b>중심</b></td><td>1인칭 주인공</td><td>3인칭 전지적 작가</td></tr>
+                            <tr><td><b>관찰</b></td><td>1인칭 관찰자</td><td>3인칭 관찰자</td></tr>
+                        </table>
+                        <div class='important-note'><b>서술자의 거리:</b> 3인칭 관찰자 시점은 독자와 서술자 사이의 거리가 가장 가깝고(객관적), 인물과는 멂.</div>
                     `,
-                    questions: [{q:"내저번 반지름이 2이고 세 변이 5, 12, 13인 삼각형의 넓이는?", a:["30", "60", "15"], cor:0}]
+                    questions: [{q:"서술자가 인물의 내면 심리까지 모두 파악하는 시점은?", a:["전지적 작가 시점","1인칭 주인공 시점"], cor:0}]
+                },
+                {
+                    name: "3. 한글 창제 원리",
+                    study: `
+                        <h2>① 자음 창제 원리</h2>
+                        <p>1. <b>상형:</b> 발음 기관을 본뜸 (ㄱ-뿌리, ㄴ-혀, ㅁ-입, ㅅ-이, ㅇ-목구멍)</p>
+                        <p>2. <b>가획:</b> 소리의 세기에 따라 획을 더함 (ㄴ→ㄷ→ㅌ)</p>
+                        <p>3. <b>이체자:</b> 모양은 변했지만 소리가 세지지 않음 (ㄹ, ㅿ, ㆁ)</p>
+                        <h2>② 모음 창제 원리</h2>
+                        <p>1. <b>상형:</b> 하늘(·), 땅(ㅡ), 사람(ㅣ)</p>
+                        <p>2. <b>합용:</b> 초출자(ㅏ,ㅓ,ㅗ,ㅜ), 재출자(ㅑ,ㅕ,ㅛ,ㅠ)</p>
+                    `,
+                    questions: [{q:"자음 기본자 중 '혀가 윗잇몸에 붙는 모양'을 본뜬 것은?", a:["ㄱ","ㄴ","ㅁ","ㅅ"], cor:1}]
+                }
+            ]
+        },
+        math: {
+            title: "수학 시험 범위",
+            units: [
+                {
+                    name: "1. 유리수와 순환소수 심화",
+                    study: `
+                        <h2>① 유리수의 조건</h2>
+                        <p>분수 b/a (a, b는 정수, a≠0) 꼴로 나타낼 수 있는 수.</p>
+                        <h2>② 유한소수 판별법</h2>
+                        <p>1. 분수를 <b>기약분수</b>로 만든다.</p>
+                        <p>2. 분모를 <b>소인수분해</b> 한다.</p>
+                        <p>3. 분모의 소인수가 <span class='important-note'>2 또는 5뿐</span>이어야 한다.</p>
+                        <h2>③ 순환소수 공식</h2>
+                        <div class='formula-box'>0.abc(bc순환) = (abc - a) / 990</div>
+                    `,
+                    questions: [{q:"7/20은 유한소수인가 무한소수인가?", a:["유한소수", "무한소수"], cor:0}]
+                },
+                {
+                    name: "2. 삼각형의 외심과 내심",
+                    study: `
+                        <h2>① 외심 (외저번의 중심)</h2>
+                        <p>- <b>작도:</b> 세 변의 <span class='important-note'>수직이등분선</span>의 교점.</p>
+                        <p>- <b>성질:</b> 외심에서 세 꼭짓점에 이르는 거리는 같다.</p>
+                        <p>- <b>위치:</b> 직각삼각형은 <span class='important-note'>빗변의 중점</span>!</p>
+                        <h2>② 내심 (내저번의 중심)</h2>
+                        <p>- <b>작도:</b> 세 각의 <span class='important-note'>이등분선</span>의 교점.</p>
+                        <p>- <b>성질:</b> 내심에서 세 변에 이르는 거리는 같다.</p>
+                        <div class='formula-box'>삼각형 넓이 S = 1/2 × r × (a + b + c)</div>
+                    `,
+                    questions: [{q:"삼각형의 세 각의 이등분선의 교점은?", a:["외심", "내심"], cor:1}]
                 }
             ]
         },
         english: {
-            title: "영어 (심화)",
+            title: "영어 시험 범위",
             units: [
                 {
-                    name: "현재완료 & 과거시점 금지",
+                    name: "1. 현재완료 (Present Perfect)",
                     study: `
-                        <h3>1. 현재완료와 같이 쓸 수 없는 단어</h3>
-                        <p>- <span class="important">Yesterday, ago, last week, when...</span> 처럼 명확한 과거 시점은 현재완료와 쓸 수 없음!</p>
-                        <p>- 예: I have met him yesterday (X) → I met him yesterday (O)</p>
-                        <h3>2. Have been vs Have gone</h3>
-                        <p>- Have been to: ~에 가본 적 있다 (경험)</p>
-                        <p>- Have gone to: ~에 가버렸다 (결과 - 지금 여기 없음)</p>
+                        <h2>① 형태: have/has + p.p.</h2>
+                        <h2>② 4가지 용법 암기</h2>
+                        <p>1. <b>완료:</b> just, already, yet (방금 ~했다)</p>
+                        <p>2. <b>경험:</b> ever, never, before, ~times (해본 적 있다)</p>
+                        <p>3. <b>계속:</b> for(+기간), since(+시점) (계속 ~해왔다)</p>
+                        <p>4. <b>결과:</b> lost, gone (해버렸다 - 지금 없다)</p>
+                        <div class='important-note'>※ 주의: yesterday, ago, last, when 등 명확한 과거 시점과는 <b>절대 같이 못 씀!</b></div>
                     `,
-                    questions: [{q:"다음 중 어법상 틀린 문장은?", a:["I have been to Seoul.", "He has gone to USA.", "I have seen him ago."], cor:2}]
+                    questions: [{q:"I ( ) seen him 3 times. 빈칸은?", a:["have", "has", "am"], cor:0}]
                 },
                 {
-                    name: "수여동사 & 관계대명사 심화",
+                    name: "2. 비교급과 최상급",
                     study: `
-                        <h3>1. 4형식 → 3형식 전치사 암기 (for)</h3>
-                        <p>- <span class="important">MBC GET PA:</span> Make, Buy, Cook, Get, Play, Ask(of)</p>
-                        <p>- 위 동사들은 간접목적어가 뒤로 갈 때 전치사 for를 사용함.</p>
-                        <h3>2. 주격 관계대명사의 생략</h3>
-                        <p>- <span class="important">[주격 관대 + be동사]</span>는 통째로 생략 가능!</p>
-                        <p>- 예: The boy (who is) running there is my brother.</p>
+                        <h2>① 비교급 (-er, more)</h2>
+                        <p>A is [비교급] than B (A가 B보다 더 ~하다)</p>
+                        <h2>② 최상급 (the -est, the most)</h2>
+                        <p>The [최상급] in/of (~중에서 가장 ~한)</p>
+                        <h2>③ 불규칙 변화 (필수 암기)</h2>
+                        <p>- good/well → better → best</p>
+                        <p>- bad/ill → worse → worst</p>
+                        <p>- many/much → more → most</p>
                     `,
-                    questions: [{q:"I bought my mom a bag. 3형식 전환 시 옳은 것은?", a:["I bought a bag to my mom.", "I bought a bag for my mom."], cor:1}]
+                    questions: [{q:"good의 최상급 형태는?", a:["goodest", "best", "most good"], cor:1}]
+                },
+                {
+                    name: "3. 수여동사 (4→3형식)",
+                    study: `
+                        <h2>① 4형식: 주어 + 동사 + 간.목(사람) + 직.목(사물)</h2>
+                        <h2>② 3형식 전환 시 전치사</h2>
+                        <p>1. <b>to:</b> give, send, tell, show, lend, teach</p>
+                        <p>2. <b>for:</b> <span class='important-note'>make, buy, cook, get</span> (MBC GET)</p>
+                        <p>3. <b>of:</b> ask</p>
+                        <div class='formula-box'>She gave me a pen. → She gave a pen to me.</div>
+                    `,
+                    questions: [{q:"I made him a cake. 3형식으로 바꾸면?", a:["I made a cake to him.", "I made a cake for him."], cor:1}]
+                },
+                {
+                    name: "4. 주격 관계대명사",
+                    study: `
+                        <h2>① 개념</h2>
+                        <p>두 문장을 하나로 연결하며, 접속사+주어 역할을 함.</p>
+                        <h2>② 종류</h2>
+                        <p>- <b>사람 선행사:</b> who (또는 that)</p>
+                        <p>- <b>사물/동물 선행사:</b> which (또는 that)</p>
+                        <div class='important-note'>※ 주의: 관계대명사 뒤의 동사는 <b>선행사의 수</b>에 일치시킨다!</div>
+                        <p>I know a girl who <span style='color:red'>likes</span> music. (선행사가 단수이므로 likes)</p>
+                    `,
+                    questions: [{q:"I have a cat ( ) has blue eyes.", a:["who", "which"], cor:1}]
                 }
             ]
         },
         science: {
-            title: "과학 (심화)",
+            title: "과학 시험 범위",
             units: [
                 {
-                    name: "빛의 굴절과 파동 심화",
+                    name: "1. 빛과 파동",
                     study: `
-                        <h3>1. 빛의 굴절 법칙</h3>
-                        <p>- 속력이 <span class="important">느린 곳으로 굴절</span>할 때 법선 쪽으로 꺾임 (공기 → 물).</p>
-                        <p>- 굴절률이 클수록 빛은 더 많이 꺾임.</p>
-                        <h3>2. 소리의 3요소</h3>
-                        <ul>
-                            <li><b>세기:</b> 진폭 (클수록 큰 소리)</li>
-                            <li><b>높낮이:</b> 진동수 (많을수록 높은 소리)</li>
-                            <li><b>맵시:</b> 파형 (목소리가 다른 이유)</li>
-                        </ul>
+                        <h2>① 빛의 반사와 거울</h2>
+                        <p>- <b>볼록 거울:</b> 항상 실물보다 작고 똑바로 선 상. 시야가 넓음 (도로 반사경).</p>
+                        <p>- <b>오목 거울:</b> 가까우면 크고 똑바로, 멀면 작고 거꾸로 (화장 거울).</p>
+                        <h2>② 빛의 굴절</h2>
+                        <p>빛이 다른 물질로 갈 때 속력 차이로 꺾이는 현상. <b>속력이 느린 쪽</b>으로 꺾임.</p>
+                        <h2>③ 파동의 요소</h2>
+                        <p>- <b>진폭:</b> 소리의 세기(큰/작은 소리) / <b>진동수:</b> 소리의 높낮이(높은/낮은 소리)</p>
                     `,
-                    questions: [{q:"소리의 높낮이를 결정하는 요소는?", a:["진폭", "진동수", "파형"], cor:1}]
+                    questions: [{q:"빛이 공기에서 물로 들어갈 때 꺾이는 현상은?", a:["반사", "굴절", "분산"], cor:1}]
                 },
                 {
-                    name: "물질의 특성 & 용해도 심화",
+                    name: "2. 물질의 특성 & 혼합물 분리",
                     study: `
-                        <h3>1. 밀도와 상태 변화</h3>
-                        <p>- 일반적으로 고체 > 액체 > 기체 순으로 밀도가 크지만, <span class="important">물은 예외로 액체 > 고체</span> (얼음이 물에 뜸).</p>
-                        <h3>2. 용해도 곡선 해석</h3>
-                        <p>- <span class="important">석출량 계산:</span> (처음 녹아있던 양) - (냉각한 온도에서 최대로 녹을 수 있는 양)</p>
-                        <p>- 기체의 용해도는 온도가 낮을수록, 압력이 높을수록 커짐 (사이다 차갑게).</p>
+                        <h2>① 물질의 특성</h2>
+                        <p>밀도, 끓는점, 녹는점, 용해도는 물질마다 고유한 값을 가짐 (질량, 부피는 특성X).</p>
+                        <h2>② 용해도 심화</h2>
+                        <p>어떤 온도에서 용매 100g에 최대로 녹을 수 있는 용질의 g수.</p>
+                        <p>- <b>고체:</b> 온도 높을수록 잘 녹음 / <b>기체:</b> 온도 낮고 압력 높을수록 잘 녹음.</p>
+                        <h2>③ 혼합물 분리</h2>
+                        <p>- <b>증류:</b> 끓는점 차 (물+에탄올) / <b>분별 깔때기:</b> 밀도 차 (물+식용유)</p>
                     `,
-                    questions: [{q:"온도를 낮출 때 가라앉는 고체의 양을 무엇이라 하나요?", a:["석출량", "용해량", "포화량"], cor:0}]
-                }
-            ]
-        },
-        korean: {
-            title: "국어 (심화)",
-            units: [
-                {
-                    name: "음운 체계 & 발음 원리",
-                    study: `
-                        <h3>1. 파찰음의 비밀</h3>
-                        <p>- <span class="important">ㅈ, ㅉ, ㅊ:</span> 파열음(막았다가) + 마찰음(터뜨리며 마찰)의 성질을 동시에 가짐.</p>
-                        <h3>2. 이중 모음의 구조</h3>
-                        <p>- 단모음과 달리 발음할 때 입 모양이 변함.</p>
-                        <p>- <span class="important">반모음 + 단모음</span>의 결합으로 이루어짐 (예: ㅑ = ㅣ[반모음] + ㅏ).</p>
-                    `,
-                    questions: [{q:"다음 중 발음 시 입술 모양이나 혀의 위치가 변하는 것은?", a:["ㅏ", "ㅣ", "ㅟ", "ㅑ"], cor:3}]
+                    questions: [{q:"물과 기름처럼 섞이지 않는 액체를 분리하는 원리는?", a:["끓는점 차", "밀도 차", "용해도 차"], cor:1}]
                 }
             ]
         }
     };
 
-    let curSubject, curUnit, curQIdx, score, sec, timer;
+    let curSub, curUnit, curQIdx, score, sec, timer;
 
     function showSubMenu(sub) {
-        curSubject = sub;
+        curSub = sub;
         document.getElementById('main-menu').classList.add('hidden');
         document.getElementById('sub-menu').classList.remove('hidden');
         document.getElementById('sub-title').innerText = data[sub].title;
@@ -205,8 +276,8 @@
         curUnit = idx;
         document.getElementById('sub-menu').classList.add('hidden');
         document.getElementById('study-screen').classList.remove('hidden');
-        document.getElementById('study-title').innerText = data[curSubject].units[idx].name;
-        document.getElementById('study-content').innerHTML = `<div class='study-box'>${data[curSubject].units[idx].study}</div>`;
+        document.getElementById('study-title').innerText = data[curSub].units[idx].name;
+        document.getElementById('study-content').innerHTML = `<div class='study-box'>${data[curSub].units[idx].study}</div>`;
     }
 
     function startQuiz() {
@@ -219,7 +290,7 @@
     }
 
     function loadQ() {
-        const q = data[curSubject].units[curUnit].questions[curQIdx];
+        const q = data[curSub].units[curUnit].questions[curQIdx];
         document.getElementById('question').innerText = `Q${curQIdx + 1}. ${q.q}`;
         const opts = document.getElementById('options');
         opts.innerHTML = '';
@@ -234,7 +305,7 @@
     }
 
     function checkAnswer(idx, btn) {
-        const q = data[curSubject].units[curUnit].questions[curQIdx];
+        const q = data[curSub].units[curUnit].questions[curQIdx];
         const allBtns = document.querySelectorAll('.option-btn');
         allBtns.forEach(b => b.disabled = true);
         if(idx === q.cor) {
@@ -249,7 +320,7 @@
 
     function loadNext() {
         curQIdx++;
-        if(curQIdx < data[curSubject].units[curUnit].questions.length) {
+        if(curQIdx < data[curSub].units[curUnit].questions.length) {
             loadQ();
         } else {
             showResult();
@@ -260,7 +331,7 @@
         clearInterval(timer);
         document.getElementById('quiz-screen').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('hidden');
-        document.getElementById('final-res').innerText = `${data[curSubject].units[curUnit].questions.length}문제 중 ${score} 정답! (소요시간: ${sec}초)`;
+        document.getElementById('final-res').innerText = `${data[curSub].units[curUnit].questions.length}문제 중 ${score} 정답! (소요시간: ${sec}초)`;
     }
 
     function goBack(targetId) {
